@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MUET Digital Literacy | Cyberbullying Awareness</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --swiss-red: #FF0000;
+            --swiss-black: #000000;
+            --swiss-white: #FFFFFF;
+            --fluid-speed: 40s;
+        }
+
+        * { cursor: none !important; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--swiss-white);
+            color: var(--swiss-black);
+            overflow-x: hidden;
+            margin: 0;
+            scroll-behavior: smooth;
+        }
+
+        #cursor {
+            position: fixed; width: 20px; height: 20px;
+            background: var(--swiss-red); border-radius: 50%;
+            pointer-events: none; z-index: 999; mix-blend-mode: difference;
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform: translate(-50%, -50%);
+        }
+
+        #cursor.hovering {
+            transform: translate(-50%, -50%) scale(1.3);
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+        }
+
+        .mouse-dither {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 100; opacity: 0.12;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3%3Ffilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            mask-image: radial-gradient(circle 300px at var(--m-x) var(--m-y), black 0%, transparent 100%);
+            -webkit-mask-image: radial-gradient(circle 300px at var(--m-x) var(--m-y), black 0%, transparent 100%);
+        }
+
+        .grain-static {
+            position: fixed; inset: 0; z-index: 98; pointer-events: none; opacity: 0.05;
+            background: url('https://grainy-gradients.vercel.app/noise.svg');
+        }
+
+        @keyframes fluidRotate {
+            0% { transform: translate(0, 0) rotate(0deg) scale(1); }
+            33% { transform: translate(5%, -5%) rotate(5deg) scale(1.1); }
+            66% { transform: translate(-5%, 5%) rotate(-5deg) scale(0.95); }
+            100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+        }
+
+        .fluid-bg {
+            position: fixed; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle at 20% 20%, var(--swiss-red) 0%, transparent 40%),
+                        radial-gradient(circle at 80% 80%, #ff4d4d 0%, transparent 40%),
+                        radial-gradient(circle at 50% 50%, #fff 0%, transparent 30%);
+            filter: blur(180px) contrast(1.2);
+            z-index: -1; opacity: 0.2;
+            animation: fluidRotate var(--fluid-speed) ease-in-out infinite;
+            will-change: transform;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 12vw, 10rem);
+            font-weight: 900; letter-spacing: -0.06em; line-height: 0.8;
+            text-transform: uppercase; color: black; position: relative;
+            background: linear-gradient(90deg, #000, #ff0000, #000);
+            background-size: 200% auto; -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent; animation: textGradient 8s linear infinite;
+        }
+
+        @keyframes textGradient { to { background-position: 200% center; } }
+
+        .swiss-container { max-width: 1400px; width: 90%; margin: 0 auto; }
+
+        .skill-section { border-bottom: 1px solid #eee; padding: clamp(60px, 10vh, 120px) 0; }
+        
+        .skill-tag {
+            display: inline-block; background: black; color: white;
+            font-size: 10px; font-weight: 900; padding: 4px 10px;
+            text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 2rem;
+        }
+
+        .context-block {
+            background: #f9f9f9; border-left: 4px solid var(--swiss-red); padding: 2rem;
+            margin-bottom: 3rem; font-size: 1rem; line-height: 1.6; color: #333;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+        }
+
+        .info-card {
+            background: #fcfcfc; border: 1px solid #eee; padding: 2.5rem;
+            margin-top: 2rem; transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            position: relative; overflow: hidden;
+        }
+        .info-card:hover { 
+            border-color: var(--swiss-red); 
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.05);
+        }
+
+        .grammar-tip {
+            border: 2px solid var(--swiss-red);
+            padding: 1.5rem; margin: 2rem 0;
+            background: #fff; position: relative;
+        }
+        .grammar-tip::before {
+            content: "GRAMMAR FOCUS";
+            position: absolute; top: -12px; left: 20px;
+            background: var(--swiss-red); color: white;
+            font-size: 10px; font-weight: 900; padding: 2px 8px;
+        }
+
+        .reading-passage {
+            font-size: 1.1rem; line-height: 1.8; color: #222;
+            max-width: 850px; text-align: justify;
+        }
+
+        .glossary-term { 
+            border-bottom: 2px solid var(--swiss-red); 
+            font-weight: 700; 
+            cursor: help; 
+            position: relative;
+            padding: 0 2px;
+        }
+        .glossary-term::after {
+            content: attr(data-tooltip);
+            position: absolute; bottom: 125%; left: 50%; transform: translateX(-50%);
+            background: #000; color: #fff; padding: 10px 15px; border-radius: 2px;
+            font-size: 12px; min-width: 200px; text-align: center; font-weight: 400;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            opacity: 0; visibility: hidden; transition: all 0.3s ease;
+            z-index: 200; pointer-events: none;
+        }
+        .glossary-term:hover::after { opacity: 1; visibility: visible; bottom: 140%; }
+
+        .cta-button {
+            display: inline-flex; align-items: center; justify-content: center;
+            background: var(--swiss-red); color: white; padding: 20px 40px;
+            font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em;
+            transition: all 0.3s ease; text-decoration: none;
+            border: 2px solid var(--swiss-red);
+        }
+        .cta-button:hover {
+            background: transparent; color: var(--swiss-red);
+            transform: scale(1.05);
+        }
+
+        .scroll-top {
+            position: fixed; bottom: 30px; right: 30px; 
+            width: 40px; height: 40px; background: white; border: 1px solid black;
+            display: flex; align-items: center; justify-content: center;
+            z-index: 150; transition: all 0.3s ease;
+        }
+        .scroll-top:hover { background: var(--swiss-red); border-color: var(--swiss-red); color: white; }
+
+        [data-aos="fade-up"] {
+            opacity: 0; transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        [data-aos="fade-up"].visible {
+            opacity: 1; transform: translateY(0);
+        }
+
+        .nav-link {
+            font-size: 10px; font-weight: 800; letter-spacing: 0.1em;
+            text-transform: uppercase; transition: color 0.3s;
+        }
+        .nav-link:hover { color: var(--swiss-red); }
+
+        figure { margin: 2rem 0; }
+        figcaption { font-size: 0.75rem; color: #666; margin-top: 0.5rem; font-style: italic; }
+    </style>
+</head>
+<body class="overflow-fix">
+    <div id="cursor"></div>
+    <div class="mouse-dither"></div>
+    <div class="grain-static"></div>
+    <div class="fluid-bg" id="fluidBg"></div>
+
+    <nav class="sticky top-0 z-[110] bg-white/95 backdrop-blur-md border-b border-black/5 py-5">
+        <div class="swiss-container flex justify-between items-center">
+            <div class="font-black text-2xl tracking-tighter flex items-center gap-3">
+                <span class="w-8 h-8 bg-red-600 block"></span> 
+                <span>MUET FORM 2 LAB</span>
+            </div>
+            <div class="hidden md:flex gap-8">
+                <a href="#mod-1" class="nav-link">Introduction</a>
+                <a href="#mod-3" class="nav-link">Etiquette</a>
+                <a href="#mod-6" class="nav-link">Citizenship</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="pt-32 pb-24 border-b border-black">
+        <div class="swiss-container">
+            <h1 class="hero-title">CYBER</h1>
+            <h1 class="hero-title">AWARENESS.</h1>
+            <p class="text-xs font-black tracking-[0.4em] uppercase mt-8 text-black/60">Comprehensive MUET Reading & Ethics Portal</p>
+            <div class="mt-20 grid grid-cols-1 md:grid-cols-2 gap-16">
+                <div data-aos="fade-up" class="visible">
+                    <span class="skill-tag">Program Objective</span>
+                    <p class="text-3xl font-bold leading-tight mt-4">
+                        Master the art of <span class="text-red-600">responsible digital communication</span> while sharpening your secondary-level English literacy.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Module 1 -->
+    <section class="skill-section" id="mod-1">
+        <div class="swiss-container">
+            <span class="skill-tag">Module 01: Overview & Introduction</span>
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-16">
+                <div class="lg:col-span-8">
+                    <div class="reading-passage" data-aos="fade-up">
+                        <p class="mb-6">Cyberbullying is a growing concern in the modern era, particularly among students in Malaysia. It is defined as the act of using digital devices, such as smartphones or computers, to <span class="glossary-term" data-tooltip="To trouble or annoy someone persistently">harass</span>, threaten, or humiliate another person. Unlike traditional bullying, which occurs in person, cyberbullying can happen <span class="font-black">24/7</span> and reach a target anywhere they have an internet connection.</p>
+                        
+                        <figure>
+                            <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1470&auto=format&fit=crop" alt="Concept of digital connectivity and cyber safety" class="w-full h-auto rounded-md shadow-md border border-gray-100">
+                            <figcaption>Visual representation of the interconnected digital world and the scale of online communication.</figcaption>
+                        </figure>
+
+                        <div class="grammar-tip">
+                            <strong>Present Continuous Tense:</strong> Used for actions happening now or current trends. 
+                            <br><em>Example: "Cyberbullying <u>is growing</u> (trend) as a concern."</em>
+                            <br><strong>Vocabulary Tip:</strong> Use <u>harass</u> instead of just "annoy" to emphasize persistence.
+                        </div>
+
+                        <p>One of the most <span class="glossary-term" data-tooltip="Extremely worrying or dangerous">alarming</span> aspects of this behavior is its anonymity. Many perpetrators hide behind fake profiles, making them feel emboldened to say things they would never say in real life. This digital distance often leads to a lack of <span class="glossary-term" data-tooltip="The ability to understand and share the feelings of another">empathy</span> for the victim.</p>
+                    </div>
+                </div>
+                <div class="lg:col-span-4">
+                    <div class="info-card">
+                        <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=1470&auto=format&fit=crop" alt="Students studying with technology" class="w-full h-48 object-cover rounded-sm mb-6 grayscale hover:grayscale-0 transition-all duration-500">
+                        <h4 class="font-black text-xs uppercase mb-4 text-red-600">Think About It</h4>
+                        <p class="text-sm italic">Have you ever seen someone being treated unkindly in a WhatsApp group? Why do you think people find it easier to be mean online?</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Module 2 -->
+    <section class="skill-section bg-black text-white" id="mod-2">
+        <div class="swiss-container">
+            <span class="skill-tag bg-white text-black">Module 02: Causes and Effects</span>
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-16">
+                <div class="lg:col-span-4">
+                    <div class="p-8 border-l-4 border-red-600 bg-white/5">
+                        <h4 class="text-xs font-black uppercase mb-4">Vocabulary Spotlight</h4>
+                        <ul class="space-y-4 text-xs">
+                            <li><strong class="text-red-600 underline">CONSEQUENCE:</strong> The result or effect of an action (often negative).</li>
+                            <li><strong class="text-red-600 underline">DEPRESSION:</strong> A clinical state of severe unhappiness and lack of hope.</li>
+                            <li><strong class="text-red-600 underline">ISOLATION:</strong> The state of being alone or separate from others.</li>
+                        </ul>
+                        <div class="mt-8 border-t border-white/10 pt-8">
+                             <img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=1470&auto=format&fit=crop" alt="Abstract concept of digital isolation" class="w-full h-auto opacity-50 mix-blend-screen">
+                        </div>
+                    </div>
+                </div>
+                <div class="lg:col-span-8">
+                    <div class="reading-passage text-white/90" data-aos="fade-up">
+                        <p class="mb-6">The <span class="glossary-term" data-tooltip="A reason for something happening">motives</span> behind cyberbullying are varied. Some students engage in it for entertainment, while others seek social status or revenge. However, regardless of the cause, the effects are <span class="glossary-term" data-tooltip="Causing great damage or harm">devastating</span>. Victims often experience severe emotional distress, which can lead to a decline in academic performance and a loss of interest in social activities.</p>
+                        
+                        <p>Long-term exposure to online harassment can result in deep psychological scars. It is essential for schools and parents to collaborate in creating a <span class="glossary-term" data-tooltip="A feeling of being protected">safe haven</span> for teenagers to express their concerns without fear of judgment.</p>
+                    </div>
+                    <div class="grammar-tip border-white/20 text-white bg-white/10">
+                        <strong>Connectors of Cause and Effect:</strong> 
+                        <br>Use <u>Consequently</u> or <u>As a result</u> at the start of sentences to show logical outcomes.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Module 3 -->
+    <section class="skill-section" id="mod-3">
+        <div class="swiss-container">
+            <span class="skill-tag">Module 03: Digital Etiquette</span>
+            <div class="context-block">
+                <div class="flex flex-col md:flex-row gap-8 items-center">
+                    <div class="md:w-3/4">
+                        <h4 class="font-black uppercase text-xs mb-3 tracking-widest">Etiquette (n): The customary code of polite behavior.</h4>
+                        "Netiquette" refers to the social conventions of online communication. Just as we use "please" and "thank you" in person, we must follow specific rules online to ensure a positive environment for everyone.
+                    </div>
+                    <div class="md:w-1/4">
+                        <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1471&auto=format&fit=crop" alt="Students communicating respectfully" class="w-full rounded-full grayscale border-2 border-red-600 p-1">
+                    </div>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="info-card" data-aos="fade-up">
+                    <h5 class="font-black text-sm mb-4">Rule 1: Think Before Posting</h5>
+                    <p class="text-xs leading-relaxed mb-4">Once a message or image is sent, it becomes part of your <span class="font-bold">digital footprint</span>. This record is permanent and can affect your future career or education.</p>
+                    <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1470&auto=format&fit=crop" alt="Digital footprint concept" class="w-full h-32 object-cover rounded shadow-inner opacity-80">
+                </div>
+                <div class="info-card" data-aos="fade-up">
+                    <h5 class="font-black text-sm mb-4">Rule 2: Respect Privacy</h5>
+                    <p class="text-xs leading-relaxed">Never share someone else's private information or photos without their explicit permission. This practice, known as <span class="font-bold text-red-600 underline">doxxing</span>, is both unethical and often illegal.</p>
+                    <div class="mt-4 p-2 bg-red-50 text-[10px] text-red-800 font-bold">VOCAB: DOXXING = publishing private info with malicious intent.</div>
+                </div>
+                <div class="info-card" data-aos="fade-up">
+                    <h5 class="font-black text-sm mb-4">Rule 3: Tone Awareness</h5>
+                    <p class="text-xs leading-relaxed mb-4">Text can easily be <span class="font-bold">misinterpreted</span>. Avoid using all caps (WHICH SOUNDS LIKE SHOUTING) and be careful with sarcasm.</p>
+                    <img src="https://images.unsplash.com/photo-1611606063065-ee7946f0787a?q=80&w=1470&auto=format&fit=crop" alt="Social media notification icons" class="w-full h-32 object-cover rounded shadow-inner opacity-80">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Module 4 & 5 -->
+    <section class="skill-section bg-gray-50" id="mod-4">
+        <div class="swiss-container">
+            <span class="skill-tag">Module 04 & 05: Interpreting & Synthesizing</span>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="reading-passage" data-aos="fade-up">
+                    <h3 class="text-2xl font-black mb-6">Critical Reading Skills</h3>
+                    <p class="mb-4">To understand digital conflict, we must look at multiple perspectives. A "prank" to one person might be "harassment" to another. When reading online comments, ask yourself:</p>
+                    <ul class="list-disc pl-5 space-y-2 text-sm mb-8">
+                        <li>What is the author's <span class="font-bold">intent</span>?</li>
+                        <li>Is the language <span class="font-bold">biased</span> or emotional?</li>
+                        <li>Are there facts to support the claims being made?</li>
+                    </ul>
+                    <img src="https://images.unsplash.com/photo-1496065187959-7f07b8353c55?q=80&w=1470&auto=format&fit=crop" alt="Abstract visualization of perspectives" class="w-full h-48 object-cover rounded shadow-md grayscale contrast-125">
+                </div>
+                <div class="bg-white p-12 shadow-sm border border-black/5" data-aos="fade-up">
+                    <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1470&auto=format&fit=crop" alt="Digital interaction concept" class="w-full h-64 object-cover rounded-sm mb-8">
+                    <h4 class="text-red-600 font-black mb-4 uppercase text-xs">Writing Prompt</h4>
+                    <p class="text-sm mb-6">"Social media companies <u>should</u> be legally responsible for the behavior of their users."</p>
+                    <div class="grammar-tip text-[11px] mb-4">
+                        <strong>Modal Verbs:</strong> "Should" expresses a strong recommendation or obligation. Use "Must" for legal requirements.
+                    </div>
+                    <p class="text-xs italic text-gray-500">How would you argue for or against this statement? Consider the balance between freedom of speech and the right to safety.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Module 6 -->
+    <section class="skill-section" id="mod-6">
+        <div class="swiss-container text-center">
+            <span class="skill-tag">Module 06: Responsible Citizenship</span>
+            <div class="max-w-3xl mx-auto py-12">
+                <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=1470&auto=format&fit=crop" alt="Diverse hands holding a globe" class="w-full h-64 object-cover rounded shadow-2xl mb-12 grayscale opacity-90">
+                <h2 class="text-5xl font-black mb-8 tracking-tighter">BE THE CHANGE.</h2>
+                <p class="reading-passage mx-auto mb-12">Digital citizenship is about more than just staying safe; it is about actively contributing to a better internet. By being an <span class="glossary-term" data-tooltip="A person who speaks up for someone being bullied">upstander</span> instead of a bystander, you can stop the cycle of hate and support those in need.</p>
+                
+                <!-- CTA SECTION -->
+                <div class="mt-16 p-12 bg-black text-white relative overflow-hidden group">
+                    <div class="relative z-10">
+                        <h3 class="text-2xl font-black mb-4 uppercase">Test Your Understanding</h3>
+                        <p class="text-sm opacity-70 mb-8 max-w-md mx-auto">Ready to put your knowledge to the test? Take our interactive quiz to see how much you've learned about digital literacy.</p>
+                        <a href="https://aarxzz.github.io/SIGNAL-QUIZ/" target="_blank" class="cta-button">
+                            Take the Cyberbullying Quiz →
+                        </a>
+                    </div>
+                    <div class="absolute inset-0 opacity-20 group-hover:opacity-30 transition-opacity">
+                         <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1470&auto=format&fit=crop" alt="" class="w-full h-full object-cover grayscale">
+                    </div>
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-red-600/20 rounded-full blur-3xl group-hover:bg-red-600/40 transition-all"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-black text-white py-20 border-t border-white/10">
+        <div class="swiss-container text-center">
+            <div class="font-black text-xl mb-4 tracking-tighter">DIGITAL LITERACY LAB</div>
+            <p class="text-[10px] font-black uppercase tracking-[0.5em] opacity-40">MUET Secondary Education Extension</p>
+            <p class="text-[9px] mt-8 opacity-20">© 2024 Educational Media Division. For instructional use only.</p>
+        </div>
+    </footer>
+
+    <button class="scroll-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" aria-label="Scroll to top">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
+    </button>
+
+    <script>
+        const cursor = document.getElementById('cursor');
+        const fluidBg = document.getElementById('fluidBg');
+        let mouseX = 0, mouseY = 0;
+        let cursorX = 0, cursorY = 0;
+
+        function updateMotion() {
+            cursorX += (mouseX - cursorX) * 0.15;
+            cursorY += (mouseY - cursorY) * 0.15;
+            cursor.style.left = cursorX + 'px';
+            cursor.style.top = cursorY + 'px';
+
+            const scrollPercent = window.pageYOffset / (document.body.offsetHeight - window.innerHeight);
+            fluidBg.style.transform = `translateY(${scrollPercent * 10}%)`;
+
+            requestAnimationFrame(updateMotion);
+        }
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            document.body.style.setProperty('--m-x', e.clientX + 'px');
+            document.body.style.setProperty('--m-y', e.clientY + 'px');
+        });
+
+        const interactives = 'a, button, .glossary-term, .skill-tag, .info-card, img';
+        document.querySelectorAll(interactives).forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('hovering'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('hovering'));
+        });
+
+        const observerOptions = { threshold: 0.1 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('[data-aos="fade-up"]').forEach(el => observer.observe(el));
+
+        requestAnimationFrame(updateMotion);
+    </script>
+</body>
+</html>

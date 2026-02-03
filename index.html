@@ -180,6 +180,58 @@
 
         figure { margin: 2rem 0; }
         figcaption { font-size: 0.75rem; color: #666; margin-top: 0.5rem; font-style: italic; }
+
+        /* Specific styles for corrected Video Panel */
+        .video-thumbnail-panel {
+            position: relative;
+            display: block;
+            width: 100%;
+            overflow: hidden;
+            background-color: #000;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        .video-thumbnail-panel:hover {
+            border-color: var(--swiss-red);
+            transform: scale(1.02);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+        }
+        .video-thumbnail-panel img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.6;
+            transition: opacity 0.5s ease, filter 0.5s ease;
+            filter: grayscale(100%);
+        }
+        .video-thumbnail-panel:hover img {
+            opacity: 0.8;
+            filter: grayscale(0%);
+        }
+        .play-overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+        .play-button-icon {
+            width: 64px;
+            height: 64px;
+            background: var(--swiss-red);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            box-shadow: 0 0 30px rgba(255,0,0,0.4);
+            transition: transform 0.3s ease;
+        }
+        .video-thumbnail-panel:hover .play-button-icon {
+            transform: scale(1.1);
+        }
     </style>
 </head>
 <body class="overflow-fix">
@@ -281,6 +333,33 @@
                         <strong>Connectors of Cause and Effect:</strong> 
                         <br>Use <u>Consequently</u> or <u>As a result</u> at the start of sentences to show logical outcomes.
                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- VIDEO RESOURCE SECTION: UNIFIED CLICK TARGET -->
+    <section class="skill-section bg-zinc-950 text-white border-y border-red-600/30">
+        <div class="swiss-container">
+            <span class="skill-tag bg-red-600 text-white">Video Resource</span>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div data-aos="fade-up">
+                    <h2 class="text-4xl font-black mb-6 tracking-tighter uppercase">Cyberbullying: Real-World Perspective</h2>
+                    <p class="text-lg text-white/70 leading-relaxed">
+                        Explore this instructional resource to better understand the real-world impact of digital harassment and how to identify various forms of online bullying. Click the panel to watch.
+                    </p>
+                </div>
+                <div class="relative aspect-video shadow-2xl overflow-hidden" data-aos="fade-up">
+                    <!-- Unified Clickable Thumbnail Panel -->
+                    <a href="https://youtu.be/tJsGGsPNakw?si=scwQbvod6IZkhOM8" target="_blank" class="video-thumbnail-panel h-full" aria-label="Watch Cyberbullying Awareness Video on YouTube">
+                        <div class="play-overlay">
+                            <div class="play-button-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>
+                            </div>
+                            <span class="text-[10px] font-black tracking-widest uppercase">Click to Watch on YouTube</span>
+                        </div>
+                        <img src="https://img.youtube.com/vi/tJsGGsPNakw/maxresdefault.jpg" alt="Cyberbullying Awareness Video Thumbnail" onerror="this.src='https://img.youtube.com/vi/tJsGGsPNakw/0.jpg'">
+                    </a>
                 </div>
             </div>
         </div>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MUET Digital Literacy | Cyberbullying Awareness</title>
+    <title>PULSE Digital Literacy | Cyberbullying Awareness</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -181,7 +181,6 @@
         figure { margin: 2rem 0; }
         figcaption { font-size: 0.75rem; color: #666; margin-top: 0.5rem; font-style: italic; }
 
-        /* Specific styles for corrected Video Panel */
         .video-thumbnail-panel {
             position: relative;
             display: block;
@@ -232,6 +231,20 @@
         .video-thumbnail-panel:hover .play-button-icon {
             transform: scale(1.1);
         }
+
+        /* Gemini Chat UI Styles */
+        #chat-output::-webkit-scrollbar { width: 4px; }
+        #chat-output::-webkit-scrollbar-thumb { background: #eee; }
+        .chat-bubble {
+            max-width: 85%;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+            line-height: 1.5;
+            position: relative;
+        }
+        .bubble-user { background: #f0f0f0; align-self: flex-end; color: black; border-right: 3px solid #000; }
+        .bubble-gemini { background: white; align-self: flex-start; color: black; border-left: 3px solid var(--swiss-red); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
     </style>
 </head>
 <body class="overflow-fix">
@@ -244,7 +257,7 @@
         <div class="swiss-container flex justify-between items-center">
             <div class="font-black text-2xl tracking-tighter flex items-center gap-3">
                 <span class="w-8 h-8 bg-red-600 block"></span> 
-                <span>MUET FORM 2 LAB</span>
+                <span>PULSE FORM 2 LAB</span>
             </div>
             <div class="hidden md:flex gap-8">
                 <a href="#mod-1" class="nav-link">Introduction</a>
@@ -259,7 +272,7 @@
         <div class="swiss-container">
             <h1 class="hero-title">CYBER</h1>
             <h1 class="hero-title">AWARENESS.</h1>
-            <p class="text-xs font-black tracking-[0.4em] uppercase mt-8 text-black/60">Comprehensive MUET Reading & Ethics Portal</p>
+            <p class="text-xs font-black tracking-[0.4em] uppercase mt-8 text-black/60">Comprehensive PULSE Reading & Ethics Portal</p>
             <div class="mt-20 grid grid-cols-1 md:grid-cols-2 gap-16">
                 <div data-aos="fade-up" class="visible">
                     <span class="skill-tag">Program Objective</span>
@@ -338,7 +351,6 @@
         </div>
     </section>
 
-    <!-- VIDEO RESOURCE SECTION: UNIFIED CLICK TARGET -->
     <section class="skill-section bg-zinc-950 text-white border-y border-red-600/30">
         <div class="swiss-container">
             <span class="skill-tag bg-red-600 text-white">Video Resource</span>
@@ -350,7 +362,6 @@
                     </p>
                 </div>
                 <div class="relative aspect-video shadow-2xl overflow-hidden" data-aos="fade-up">
-                    <!-- Unified Clickable Thumbnail Panel -->
                     <a href="https://youtu.be/tJsGGsPNakw?si=scwQbvod6IZkhOM8" target="_blank" class="video-thumbnail-panel h-full" aria-label="Watch Cyberbullying Awareness Video on YouTube">
                         <div class="play-overlay">
                             <div class="play-button-icon">
@@ -434,10 +445,57 @@
             <span class="skill-tag">Module 06: Responsible Citizenship</span>
             <div class="max-w-3xl mx-auto py-12">
                 <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=1470&auto=format&fit=crop" alt="Diverse hands holding a globe" class="w-full h-64 object-cover rounded shadow-2xl mb-12 grayscale opacity-90">
-                <h2 class="text-5xl font-black mb-8 tracking-tighter">BE THE CHANGE.</h2>
+                <h2 class="text-5xl font-black mb-8 tracking-tighter uppercase">Be the Change.</h2>
                 <p class="reading-passage mx-auto mb-12">Digital citizenship is about more than just staying safe; it is about actively contributing to a better internet. By being an <span class="glossary-term" data-tooltip="A person who speaks up for someone being bullied">upstander</span> instead of a bystander, you can stop the cycle of hate and support those in need.</p>
-                
-                <!-- CTA SECTION -->
+            </div>
+        </div>
+    </section>
+
+    <!-- GeminiAI Chatbot Section (Additive Only) -->
+    <section class="skill-section bg-zinc-50 border-t border-black/5">
+        <div class="swiss-container">
+            <span class="skill-tag bg-black text-white">GeminiAI Extension</span>
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-16">
+                <div class="lg:col-span-5" data-aos="fade-up">
+                    <h2 class="text-4xl font-black mb-6 tracking-tighter uppercase">Ask GeminiAI: Cyberbullying Support</h2>
+                    <p class="text-sm text-black/60 leading-relaxed mb-8">
+                        Have a quick question about digital safety, vocabulary, or how to handle an online situation? Ask our AI assistant for informational guidance on becoming a better digital citizen.
+                    </p>
+                    <div class="p-6 border-l-2 border-red-600 bg-white shadow-sm">
+                        <p class="text-[10px] font-black uppercase tracking-widest text-red-600 mb-2">Notice</p>
+                        <p class="text-[11px] leading-snug text-black/50">This tool provides educational information only. If you are experiencing a crisis or immediate danger, please speak to a trusted teacher, parent, or counselor immediately.</p>
+                    </div>
+                </div>
+                <div class="lg:col-span-7" data-aos="fade-up">
+                    <div class="bg-white border border-black/10 flex flex-col h-[500px] shadow-xl relative overflow-hidden">
+                        <div class="p-4 border-b border-black/5 flex items-center justify-between bg-zinc-900 text-white">
+                            <span class="text-[10px] font-black uppercase tracking-widest">GeminiAI (PULSE Assistant)</span>
+                            <div class="flex gap-1">
+                                <span class="w-2 h-2 rounded-full bg-red-600"></span>
+                                <span class="w-2 h-2 rounded-full bg-white/20"></span>
+                            </div>
+                        </div>
+                        <div id="chat-output" class="flex-1 overflow-y-auto p-6 flex flex-col">
+                            <div class="chat-bubble bubble-gemini">
+                                Hello! I'm here to help you understand digital literacy and online safety. What would you like to know today?
+                            </div>
+                        </div>
+                        <div class="p-4 border-t border-black/5 bg-zinc-50">
+                            <form id="gemini-form" class="flex gap-2">
+                                <input type="text" id="user-input" placeholder="Type your question here..." class="flex-1 bg-white border border-black/10 px-4 py-3 text-sm focus:outline-none focus:border-red-600 transition-colors">
+                                <button type="submit" class="bg-black text-white px-6 py-3 text-[10px] font-black uppercase tracking-widest hover:bg-red-600 transition-colors">Ask</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Test Your Understanding -->
+    <section class="skill-section" id="mod-quiz">
+        <div class="swiss-container text-center">
+            <div class="max-w-3xl mx-auto">
                 <div class="mt-16 p-12 bg-black text-white relative overflow-hidden group">
                     <div class="relative z-10">
                         <h3 class="text-2xl font-black mb-4 uppercase">Test Your Understanding</h3>
@@ -458,7 +516,7 @@
     <footer class="bg-black text-white py-20 border-t border-white/10">
         <div class="swiss-container text-center">
             <div class="font-black text-xl mb-4 tracking-tighter">DIGITAL LITERACY LAB</div>
-            <p class="text-[10px] font-black uppercase tracking-[0.5em] opacity-40">MUET Secondary Education Extension</p>
+            <p class="text-[10px] font-black uppercase tracking-[0.5em] opacity-40">PULSE Secondary Education Extension</p>
             <p class="text-[9px] mt-8 opacity-20">© 2024 Educational Media Division. For instructional use only.</p>
         </div>
     </footer>
@@ -492,7 +550,7 @@
             document.body.style.setProperty('--m-y', e.clientY + 'px');
         });
 
-        const interactives = 'a, button, .glossary-term, .skill-tag, .info-card, img';
+        const interactives = 'a, button, .glossary-term, .skill-tag, .info-card, img, input';
         document.querySelectorAll(interactives).forEach(el => {
             el.addEventListener('mouseenter', () => cursor.classList.add('hovering'));
             el.addEventListener('mouseleave', () => cursor.classList.remove('hovering'));
@@ -508,6 +566,71 @@
         }, observerOptions);
 
         document.querySelectorAll('[data-aos="fade-up"]').forEach(el => observer.observe(el));
+
+        // Gemini AI Integration Logic
+        const geminiForm = document.getElementById('gemini-form');
+        const userInput = document.getElementById('user-input');
+        const chatOutput = document.getElementById('chat-output');
+        const apiKey = ""; // Runtime provided
+
+        async function fetchGeminiResponse(query, retries = 5, delay = 1000) {
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+            const systemPrompt = "You are a helpful educational assistant for Form 2 secondary students in Malaysia. Focus on digital literacy, cyberbullying prevention, and online etiquette. Keep answers concise, supportive, and appropriate for 14-year-olds. Use simple English.";
+            
+            const payload = {
+                contents: [{ parts: [{ text: query }] }],
+                systemInstruction: { parts: [{ text: systemPrompt }] }
+            };
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) throw new Error('API Error');
+
+                const data = await response.json();
+                return data.candidates?.[0]?.content?.parts?.[0]?.text || "I'm sorry, I couldn't generate a response.";
+            } catch (error) {
+                if (retries > 0) {
+                    await new Promise(res => setTimeout(res, delay));
+                    return fetchGeminiResponse(query, retries - 1, delay * 2);
+                }
+                return "Technical error: I'm having trouble connecting right now. Please try again later.";
+            }
+        }
+
+        geminiForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const text = userInput.value.trim();
+            if (!text) return;
+
+            // Add user bubble
+            const userBubble = document.createElement('div');
+            userBubble.className = 'chat-bubble bubble-user';
+            userBubble.textContent = text;
+            chatOutput.appendChild(userBubble);
+            userInput.value = '';
+            chatOutput.scrollTop = chatOutput.scrollHeight;
+
+            // Add loading bubble
+            const loadingBubble = document.createElement('div');
+            loadingBubble.className = 'chat-bubble bubble-gemini opacity-50';
+            loadingBubble.textContent = 'Thinking...';
+            chatOutput.appendChild(loadingBubble);
+            chatOutput.scrollTop = chatOutput.scrollHeight;
+
+            const aiResponse = await fetchGeminiResponse(text);
+            
+            chatOutput.removeChild(loadingBubble);
+            const geminiBubble = document.createElement('div');
+            geminiBubble.className = 'chat-bubble bubble-gemini';
+            geminiBubble.textContent = aiResponse;
+            chatOutput.appendChild(geminiBubble);
+            chatOutput.scrollTop = chatOutput.scrollHeight;
+        });
 
         requestAnimationFrame(updateMotion);
     </script>
